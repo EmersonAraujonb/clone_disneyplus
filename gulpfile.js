@@ -9,6 +9,15 @@ import imagemin, {
     svgo
 } from 'gulp-imagemin';
 
+import uglify from 'gulp-uglify';
+
+
+function scripts() {
+    return gulp.src('./src/scripts/*.js')
+        .pipe(uglify())
+        .pipe(gulp.dest('./dist/js'));
+}
+
 // cria o compilador de sass corretamente
 const sass = gulpSass(dartSass);
 
@@ -41,9 +50,10 @@ export function images() {
 export function watch() {
     gulp.watch('./src/styles/*.scss', styles);
     gulp.watch('./src/images/**/*.{png,jpg,jpeg,gif,svg}', images);
+    gulp.watch('./src/scripts/*.js', scripts);
 }
 
 // ------------------------------
 // DEFAULT
 // ------------------------------
-export default gulp.parallel(styles, images);
+export default gulp.parallel(styles, images, scripts);
